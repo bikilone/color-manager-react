@@ -9,7 +9,7 @@ export default function AddColor({searchTerm, handleOnSearchTermChange }:compone
         <h2>Filter Colors</h2>
         <input
           type="text"
-          placeholder="Search by Name"
+          placeholder="Search by name or hex value"
           value={searchTerm}
           onChange={handleOnSearchTermChange}
         />
