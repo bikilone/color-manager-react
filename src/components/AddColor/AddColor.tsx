@@ -1,5 +1,5 @@
 import './AddColor.scss';
-export default function AddColor({newColor, handleAddColor, handleOnInputChange}) {
+export default function AddColor({newColor, handleAddColor, handleOnInputChange, errorMessage}) {
     return (
         <div className="add-color-container">
         <h2>Add Color</h2>
@@ -11,13 +11,19 @@ export default function AddColor({newColor, handleAddColor, handleOnInputChange}
             value={newColor.name}
             onChange={handleOnInputChange}
           />
+        </div>
+        <div className="input-container">
           <input
             type="text"
             name="hexValue"
             placeholder="Hex Value"
             value={newColor.hexValue}
             onChange={handleOnInputChange}
+            className={errorMessage && 'has-error-message'}
           />
+          {
+            errorMessage && <span className='error-message'>{errorMessage}</span>
+          }
         </div>
         <button className="add-button" onClick={handleAddColor}>
           Add

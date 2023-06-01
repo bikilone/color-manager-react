@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import "./App.scss"; 
 import Color from "./types/Color";
-import { getColorsFromLocalStorage, setColorsToLocalStorage } from "./services/utilities";
+import { getColorsFromLocalStorage, isValidHexColor, setColorsToLocalStorage } from "./services/utilities";
 import AddColor from "./components/AddColor/AddColor";
 import FilterColor from './components/FilterColor/FilterColor'
 import ColorList from "./components/ColorList/ColorList";
+import "./App.scss"; 
 
 function ColorManager() {
   const [colors, setColors] = useState(getColorsFromLocalStorage);
   const [newColor, setNewColor] = useState({name: "", hexValue: ""} as Color);
   const [searchTerm, setSearchTerm] = useState('');
-
+  const [errorMessage, setErrorMessage] = useState('');
   useEffect(() => {
     setColorsToLocalStorage(colors);
   }, [colors]);
@@ -20,9 +20,16 @@ function ColorManager() {
   };
 
   const handleAddColor = () => {
-    if (newColor.name && newColor.hexValue) {
+    const isValidHex = isValidHexColor(newColor.hexValue);
+    if (!isValidHex){
+      setErrorMessage('Not a valid hex color')
+      return
+  }
+
+    if (newColor.name && newColor.hexValue ) {
       setColors([...colors, newColor]);
       setNewColor({name: "", hexValue: ""});
+      setErrorMessage('')
     }
   };
 
@@ -45,7 +52,7 @@ function ColorManager() {
   return (
     <div className="container color-manager-container">
       <h1>Color Manager</h1>
-      <AddColor handleAddColor={handleAddColor} newColor={newColor} handleOnInputChange={handleOnInputChange}/>
+      <AddColor handleAddColor={handleAddColor} newColor={newColor} handleOnInputChange={handleOnInputChange} errorMessage={errorMessage}/>
       <FilterColor searchTerm={searchTerm} handleOnSearchTermChange={handleOnSearchTermChange} />
       <ColorList filteredColors={filteredColors} handleDeleteColor={handleDeleteColor} />
     </div>

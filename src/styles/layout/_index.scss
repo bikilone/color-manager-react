@@ -1,9 +1,12 @@
 .container {
+  padding: 20px;
     @include media-sm {
         margin: 0  $margin-sm;
+        padding: 20px 40px;
       }
     @include media-md {
         margin: 0  $margin-md;
+        padding: 20px 60px;
       }
     @include media-lg {
         margin: 0  $margin-lg;

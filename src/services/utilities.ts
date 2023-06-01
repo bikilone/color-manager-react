@@ -12,3 +12,7 @@ export function getColorsFromLocalStorage():Color[] {
 export function setColorsToLocalStorage(colors:Color[]) {
     localStorage.setItem(localStorageColors, JSON.stringify(colors));
 }
+
+export function isValidHexColor(color:string) {
+  return /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(color);
+}

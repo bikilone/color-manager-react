@@ -14,8 +14,8 @@ export default function ColorList({filteredColors, handleDeleteColor}) {
                   className="color-box"
                 ></div>
                 <div className="color-details">
-                  <span className="color-name">{color.name}</span>
                   <span className="color-hex">{color.hexValue}</span>
+                  <span className="color-name">{color.name}</span>
                 </div>
                 <button
                   className="delete-button"
