@@ -1,5 +1,13 @@
+import React from 'react';
 import './AddColor.scss';
-export default function AddColor({newColor, handleAddColor, handleOnInputChange, errorMessage}) {
+import Color from '../../types/Color';
+interface componentProps  {
+  newColor: Color, 
+  handleAddColor: () => void, 
+  handleOnInputChange: (e:React.ChangeEvent<HTMLInputElement>) => void, 
+  errorMessage: string
+}
+export default function AddColor({newColor, handleAddColor, handleOnInputChange, errorMessage}: componentProps) {
     return (
         <div className="add-color-container">
         <h2>Add Color</h2>

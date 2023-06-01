@@ -1,5 +1,10 @@
+import Color from '../../types/Color'
 import './ColorList.scss'
-export default function ColorList({filteredColors, handleDeleteColor}) {
+interface componentProps  {
+  handleDeleteColor: (index:number) => void, 
+  filteredColors: Color[]
+}
+export default function ColorList({filteredColors, handleDeleteColor}:componentProps) {
     return (
         <div className="color-list-container">
         <h2>Color List</h2>
