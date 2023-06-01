@@ -1,35 +1,61 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import "./App.scss"; 
+import Color from "./types/Color";
+import { getColorsFromLocalStorage, setColorsToLocalStorage } from "./services/utilities";
 
-function App() {
-  const [count, setCount] = useState(0)
+function ColorManager() {
+  const [colors, setColors] = useState(getColorsFromLocalStorage);
+  const [newColor, setNewColor] = useState({name: "", hexValue: ""} as Color);
+
+  useEffect(() => {
+    setColorsToLocalStorage(colors);
+  }, [colors]);
+
+  const handleOnInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewColor({...newColor, [e.target.name]: e.target.value});
+  };
+
+  const handleAddColor = () => {
+
+
+    if (newColor.name && newColor.hexValue) {
+      setColors([...colors, newColor]);
+      setNewColor({name: "", hexValue: ""});
+    }
+  };
 
   return (
-    <>
+    <div>
+      <h1>Color Manager</h1>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <h2>Add Color</h2>
+        <input id="color-name" name="name" onChange={handleOnInputChange} value={newColor.name} placeholder="Color name:"/>
+        <input id="hex" onChange={handleOnInputChange} name="hexValue"  value={newColor.hexValue} placeholder="Hex:"/>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+      <div>
+        <button onClick={handleAddColor}>Submit color</button>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+      <div>
+        <h2>Color list</h2>
+        <ul>
+          {colors.length ? (
+            colors.map(({name, hexValue}) => {
+              return (
+                <li key={hexValue}>
+                  <span style={{ backgroundColor: hexValue }}>
+                    {name} #{hexValue}
+                  </span>
+                </li>
+              );
+            }))
+            :(
+              <p>No colors found</p>
+            ) 
+          }
+        </ul>
+      </div>
+    </div>
+  );
 }
 
-export default App
+export default ColorManager;
