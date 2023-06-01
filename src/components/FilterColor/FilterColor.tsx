@@ -1,3 +1,5 @@
+import './FilterColor.scss'
+
 interface componentProps  {
   handleOnSearchTermChange: (e:React.ChangeEvent<HTMLInputElement>) => void, 
   searchTerm: string
