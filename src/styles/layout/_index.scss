@@ -1,0 +1,17 @@
+.container {
+    @include media-sm {
+        margin: 0  $margin-sm;
+      }
+    @include media-md {
+        margin: 0  $margin-md;
+      }
+    @include media-lg {
+        margin: 0  $margin-lg;
+      }
+    @include media-xl {
+        margin: 0  $margin-xl;
+      }
+    @include media-xxl {
+        margin: 0  $margin-xxl;
+      }
+}

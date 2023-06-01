@@ -23,6 +23,12 @@ function ColorManager() {
     }
   };
 
+  const handleDeleteColor = (index:number) => {
+    const updatedColors = [...colors]
+    updatedColors.splice(index, 1);
+    setColors(updatedColors)
+  }
+
   const handleOnSearchTermChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   }
@@ -34,35 +40,68 @@ function ColorManager() {
   })
 
   return (
-    <div>
+    <div className="container color-manager-container">
       <h1>Color Manager</h1>
-      <div>
+
+      <div className="add-color-container">
         <h2>Add Color</h2>
-        <input id="color-name" name="name" onChange={handleOnInputChange} value={newColor.name} placeholder="Color name:"/>
-        <input id="hex" onChange={handleOnInputChange} name="hexValue"  value={newColor.hexValue} placeholder="Hex:"/>
+        <div className="input-container">
+          <input
+            type="text"
+            name="name"
+            placeholder="Color Name"
+            value={newColor.name}
+            onChange={handleOnInputChange}
+          />
+          <input
+            type="text"
+            name="hexValue"
+            placeholder="Hex Value"
+            value={newColor.hexValue}
+            onChange={handleOnInputChange}
+          />
+        </div>
+        <button className="add-button" onClick={handleAddColor}>
+          Add
+        </button>
       </div>
-      <div>
-        <button onClick={handleAddColor}>Submit color</button>
+
+      <div className="filter-container">
+        <h2>Filter Colors</h2>
+        <input
+          type="text"
+          placeholder="Search by Name"
+          value={searchTerm}
+          onChange={handleOnSearchTermChange}
+        />
       </div>
-      <div>
-      <input onChange={handleOnSearchTermChange}  value={searchTerm} placeholder="Search for colors..."/>
-        <h2>Color list</h2>
-        <ul>
-          {filteredColors.length ? (
-            filteredColors.map(({name, hexValue}) => {
-              return (
-                <li key={hexValue}>
-                  <span style={{ backgroundColor: hexValue }}>
-                    {name} #{hexValue}
-                  </span>
-                </li>
-              );
-            }))
-            :(
-              <p>No colors found</p>
-            ) 
-          }
-        </ul>
+
+      <div className="color-list-container">
+        <h2>Color List</h2>
+        {filteredColors.length === 0 ? (
+          <p>No colors found.</p>
+        ) : (
+          <ul className="color-item-list">
+            {filteredColors.map((color, index) => (
+              <li key={index} className="color-item">
+                <div
+                  style={{ backgroundColor: color.hexValue }}
+                  className="color-box"
+                ></div>
+                <div className="color-details">
+                  <span className="color-name">{color.name}</span>
+                  <span className="color-hex">{color.hexValue}</span>
+                </div>
+                <button
+                  className="delete-button"
+                  onClick={() => handleDeleteColor(index)}
+                >
+                  Delete
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </div>
   );
