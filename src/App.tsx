@@ -6,6 +6,7 @@ import { getColorsFromLocalStorage, setColorsToLocalStorage } from "./services/u
 function ColorManager() {
   const [colors, setColors] = useState(getColorsFromLocalStorage);
   const [newColor, setNewColor] = useState({name: "", hexValue: ""} as Color);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     setColorsToLocalStorage(colors);
@@ -16,13 +17,21 @@ function ColorManager() {
   };
 
   const handleAddColor = () => {
-
-
     if (newColor.name && newColor.hexValue) {
       setColors([...colors, newColor]);
       setNewColor({name: "", hexValue: ""});
     }
   };
+
+  const handleOnSearchTermChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  }
+
+  const filteredColors = colors.filter(({name, hexValue}) => {
+    const nameMatch = name.toLowerCase().includes(searchTerm.toLowerCase());
+    const hexValueMatch = hexValue.toLowerCase().includes(searchTerm.toLowerCase());
+    return nameMatch || hexValueMatch;
+  })
 
   return (
     <div>
@@ -36,10 +45,11 @@ function ColorManager() {
         <button onClick={handleAddColor}>Submit color</button>
       </div>
       <div>
+      <input onChange={handleOnSearchTermChange}  value={searchTerm} placeholder="Search for colors..."/>
         <h2>Color list</h2>
         <ul>
-          {colors.length ? (
-            colors.map(({name, hexValue}) => {
+          {filteredColors.length ? (
+            filteredColors.map(({name, hexValue}) => {
               return (
                 <li key={hexValue}>
                   <span style={{ backgroundColor: hexValue }}>
