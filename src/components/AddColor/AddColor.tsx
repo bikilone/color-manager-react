@@ -24,7 +24,7 @@ export default function AddColor({newColor, handleAddColor, handleOnInputChange,
           <input
             type="text"
             name="hexValue"
-            placeholder="Hex Value"
+            placeholder="Hex Value (starting with #)"
             value={newColor.hexValue}
             onChange={handleOnInputChange}
             className={errorMessage && 'has-error-message'}
